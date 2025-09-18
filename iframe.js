@@ -58,7 +58,7 @@ DiagramEditor.prototype.handleMessage = function(msg)
 	{
 		this.initializeEditor();
 	}
-	else if (msg.event == 'autosave')
+	else if (msg.event == 'autosave' || msg.event == 'save')
 	{
 		this.save(msg.xml, true, this.startElement);
 	}
@@ -66,9 +66,9 @@ DiagramEditor.prototype.handleMessage = function(msg)
 	{
 		this.export(msg);
 	}
-	else if (msg.event == 'save')
+	else if (msg.event == 'exit')
 	{
-    this.save(msg.xml, false, this.startElement);
+    	this.exit();
 	}
 
 };
@@ -98,9 +98,8 @@ DiagramEditor.prototype.initializeEditor = function()
 	this.postMessage({
 		action: 'load',
 		autosave: 1,
-		saveAndExit: '1',
 		modified: 'unsavedChanges',
-		title:"123",
+		title:`${this.blockId}-drawio.svg`,
 		xml: this.svgDataURL
 		});
 
@@ -131,6 +130,11 @@ DiagramEditor.prototype.export = async function(msg)
 		modified: false
 		});
 	}
+};
+
+DiagramEditor.prototype.exit = function()
+{
+	window.close();
 };
 
 

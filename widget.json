@@ -1,0 +1,19 @@
+{
+    "name": "widget-drawio-watermelonhub",
+    "author": "wangguan",
+    "url": "https://github.com/WACrown/widget-drawio-watermelonhub",
+    "version": "0.1.0",
+    "displayName": {
+        "default": "drawio-watermelonhub"
+    },
+    "description": {
+        "default": "基于drawio的画图挂件，以SVG存储和预览文件"
+    },
+    "readme": {
+        "default": "README.md"
+    },
+    "i18n": [
+        "zh_CN"
+    ],
+    "funding": {}
+}

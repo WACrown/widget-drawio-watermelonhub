@@ -15,7 +15,6 @@ function getSvg(blockId) {
         },
         body: JSON.stringify({
             path: `data/assets/${blockId}-drawio.svg`,
-            //path: `data/assets/test1.drawio`,
         }),
     }).then((response) => {
         // 检查响应状态
@@ -23,6 +22,23 @@ function getSvg(blockId) {
             return null;
         }
         return response.blob();
+    });
+}
+
+//连接资源到块，否则svg会变为未引用资源。而且这个属性名称必须是custom-data-assets，属性值必须是assets/...
+async function linkResource(blockId) {
+    return fetch("/api/attr/setBlockAttrs", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(
+            {
+                id: blockId,
+                attrs: {
+                    "custom-data-assets": `assets/${blockId}-drawio.svg`,
+                }
+            }),
     });
 }
 
@@ -55,7 +71,7 @@ function showSvg(blockId) {
 
 // 页面加载完成后执行
 document.addEventListener('DOMContentLoaded', function() {
-    
+    linkResource(blockId);
 	const editBtn = document.getElementById('editBtn');
 
     // 获取块ID
