@@ -49,7 +49,6 @@ function DiagramEditor()
 
 DiagramEditor.prototype.handleMessage = function(msg)
 {
-	console.log(msg);
 	if (msg.event == 'configure')
 	{
 		this.configureEditor();
@@ -75,7 +74,6 @@ DiagramEditor.prototype.handleMessage = function(msg)
 
 DiagramEditor.prototype.postMessage = function(msg)
 {
-	console.log(msg);
 	if (this.iframe != null)
 	{
 		this.iframe.contentWindow.postMessage(JSON.stringify(msg), '*');
@@ -122,7 +120,6 @@ DiagramEditor.prototype.save = function()
 DiagramEditor.prototype.export = async function(msg)
 {
 	const code = await this.saveSvgToSiyuan(msg.data, this.blockId + "-drawio.svg");
-	console.log(code);
 	if(code == 0){
 		this.postMessage({
 		action: 'status', 
@@ -194,7 +191,6 @@ DiagramEditor.prototype.saveSvgToSiyuan = async function(base64Data, fileName) {
 	
 	// 5. 创建 File 对象
 	const file =  new File([blob], fileName, { type: 'image/svg+xml' });
-	//console.log(file);
 
 	const formdata = new FormData();
 	formdata.append("path", "/data/assets/"+fileName);
