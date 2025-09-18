@@ -1,58 +1,86 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-    <title>Flowchart Maker &amp; Online Diagram Software</title>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="Description" content="draw.io is free online diagram software for making flowcharts, process diagrams, org charts, UML, ER and network diagrams">
-    <meta name="Keywords" content="drawio, diagram, online, flow chart, flowchart maker, uml, erd">
-    <meta itemprop="name" content="draw.io - free flowchart maker and diagrams online">
-	<meta itemprop="description" content="draw.io is a free online diagramming application and flowchart maker . You can use it to create UML, entity relationship,
-		org charts, BPMN and BPM, database schema and networks. Also possible are telecommunication network, workflow, flowcharts, maps overlays and GIS, electronic 
-		circuit and social network diagrams.">
-	<meta itemprop="image" content="https://lh4.googleusercontent.com/-cLKEldMbT_E/Tx8qXDuw6eI/AAAAAAAAAAs/Ke0pnlk8Gpg/w500-h344-k/BPMN%2Bdiagram%2Brc2f.png">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-	<meta name="msapplication-config" content="images/browserconfig.xml">
-    <meta name="mobile-web-app-capable" content="yes">
-	<meta name="theme-color" content="#d89000">
-    <link rel="canonical" href="https://app.diagrams.net">
-	<link rel="manifest" href="images/manifest.json">
-	<link rel="icon" href="favicon.ico" sizes="any">
-	<link rel="shortcut icon" href="favicon.ico">
-    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
-    <link rel="stylesheet" type="text/css" href="styles/grapheditor.css">
-	<link rel="stylesheet" media="(forced-colors: active)" href="styles/high-contrast.css" id="high-contrast-stylesheet">
-	<script src="js/bootstrap.js"></script>
-	<style type="text/css">
-		.geBlock {
-			z-index:-3;
-			margin:100px;
-			margin-top:40px;
-			margin-bottom:30px;
-			padding:20px;
-			text-align:center;
-			min-width:50%;
-		}
-		.geBlock h1, .geBlock h2 {
-			margin-top:0px;
-			padding-top:0px;
-		}
-	</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全屏图片展示</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body, html {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .fullscreen-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+            display: block;
+        }
+        
+        .controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 12px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .container:hover .controls {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            background: rgb(160, 160, 160);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            /* backdrop-filter: blur(10px);
+            transition: all 0.2s ease; */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn:hover {
+            background: rgba(40, 40, 40, 0.9);
+            transform: translateY(-2px);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+    </style>
 </head>
-<body class="geEditor geClassic">
-<div id="geInfo">
-	<div class="geBlock">
-		<h1>Flowchart Maker and Online Diagram Software</h1>
-		<p>
-			draw.io is free online diagram software. You can use it as a flowchart maker, network diagram software, to create UML online, as an ER diagram tool, 
-			to design database schema, to build BPMN online, as a circuit diagram maker, and more. draw.io can import .vsdx, Gliffy&trade; and Lucidchart&trade; files .
-		</p>
-		<h2 id="geStatus">Loading... <img src="images/spin.gif"/></h2>
-		<p>
-			Please ensure JavaScript is enabled.
-		</p>
-	</div>
-</div>
-<script src="js/main.js"></script>
+<body>
+   <div class="container">
+        <img class="fullscreen-image">
+        <div class="controls">
+            <button class="btn" id="editBtn">编辑</button>
+            <button class="btn" id="refreshBtn">刷新</button>
+        </div>
+    </div>
+    <script src="index.js"></script>
 </body>
 </html>
