@@ -9,6 +9,8 @@ DiagramEditor.prototype.svgDataURL = null;
 
 DiagramEditor.prototype.iframe = null;
 
+DiagramEditor.prototype.blockPath = null;
+
 
 function DiagramEditor()
 {
@@ -17,6 +19,7 @@ function DiagramEditor()
 	// 隐藏Tab栏
 	this.config = {css : '.geTabContainer { height: 0px !important; }'};
 	this.getSvgDateUrl().then(result => {this.svgDataURL = result;});
+	this.getBlockPath().then(path => {this.blockPath = path;});
 	
 	var self = this;
 
@@ -40,6 +43,8 @@ function DiagramEditor()
 			}
 		}
 	});
+
+	
 };
 
 
@@ -97,7 +102,7 @@ DiagramEditor.prototype.initializeEditor = function()
 		action: 'load',
 		autosave: 1,
 		modified: 'unsavedChanges',
-		title:`${this.blockId}-drawio.svg`,
+		title:`${this.blockPath}/${this.blockId}-drawio.svg`,
 		xml: this.svgDataURL
 		});
 
@@ -142,7 +147,25 @@ DiagramEditor.getBlockId = function() {
 
 
 
-
+DiagramEditor.prototype.getBlockPath = async function() {
+    return fetch("/api/filetree/getHPathByID", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            id: this.blockId
+        }),
+    }).then((response) => {
+        // 检查响应状态
+        if (response.status !== 200 || response == null) {
+            return null;
+        }
+        return response.json();
+    })
+    .then(msg => {
+		return msg.data;});
+}
 
 
 
@@ -210,6 +233,21 @@ DiagramEditor.prototype.saveSvgToSiyuan = async function(base64Data, fileName) {
 		});
 }
 
+DiagramEditor.prototype.isAuthEnable = async function(){
+  const reponse = await fetch("/api/attr/getBlockAttrs", {
+    body: JSON.stringify({
+      id: this.blockId,
+    }),
+    method: "POST",
+  });
+  return reponse.status === 401;
+}
+
 const diagramEditor = new DiagramEditor();
-
-
+diagramEditor.isAuthEnable().then(auth => {
+		if(auth){
+			const { pathname, search } = window.location;
+			const url = '/check-auth?to=' + encodeURIComponent(pathname + search);
+			window.location.href = url;
+		}
+	});
